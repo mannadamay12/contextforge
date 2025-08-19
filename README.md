@@ -1,36 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ContextForge
 
-## Getting Started
+> **Transform scattered content into AI-ready context with intelligent aggregation and optimization**
 
-First, run the development server:
+ContextForge is a modern, scalable content aggregation platform designed for AI workflows. It combines multiple data sources into optimized, LLM-ready context while providing a superior user experience through a web-based interface.
+
+## 🚀 Features
+
+- **Multi-Source Content Aggregation**: GitHub repos, websites, PDFs, ArXiv papers, YouTube videos
+- **Intelligent Processing Engine**: Smart content extraction, deduplication, and optimization
+- **Real-Time Processing Dashboard**: Live status updates and progress tracking
+- **AI-Optimized Output**: Multiple formats (XML, Markdown, JSON) with token counting
+- **Project Management**: Workspace organization with version history and collaboration
+
+## 🏗️ Architecture
+
+- **Frontend**: Next.js 15 with TypeScript and Tailwind CSS
+- **Backend**: Fastify API with TypeScript
+- **Database**: PostgreSQL with Prisma ORM
+- **Queue System**: Redis with BullMQ for background processing
+- **Containerization**: Docker Compose for local development
+
+## 📋 Prerequisites
+
+- Node.js 18+ 
+- Docker and Docker Compose
+- PostgreSQL (via Docker)
+- Redis (via Docker)
+
+## 🛠️ Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd contextforge
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Copy environment template
+cp .env.example .env
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Edit .env with your configuration
+# Required: DATABASE_URL, REDIS_URL, NEXTAUTH_SECRET
+# Optional: GITHUB_TOKEN, OPENAI_API_KEY, etc.
+```
 
-## Learn More
+### 3. Start Services
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Start PostgreSQL and Redis
+docker-compose up -d
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Install dependencies
+npm run install:all
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Setup database
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+```
 
-## Deploy on Vercel
+### 4. Start Development Servers
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Start both frontend and API
+npm run dev
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Or start individually
+npm run dev:web    # Frontend on http://localhost:3000
+npm run dev:api    # API on http://localhost:3001
+```
+
+## 📁 Project Structure
+
+```
+contextforge/
+├── apps/
+│   ├── api/          # Fastify API server
+│   └── web/          # Next.js frontend
+├── packages/
+│   └── shared/       # Shared utilities and types
+├── prisma/           # Database schema and migrations
+├── docker-compose.yml
+└── package.json
+```
+
+## 🗄️ Database
+
+The project uses PostgreSQL with the following main entities:
+
+- **Users**: Authentication and user management
+- **Projects**: Workspace organization
+- **Sources**: Content sources (GitHub, web pages, etc.)
+- **Outputs**: Processed and optimized content
+- **Aliases**: Reusable source collections
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev              # Start all services
+npm run dev:web          # Frontend only
+npm run dev:api          # API only
+
+# Database
+npm run db:migrate       # Run migrations
+npm run db:seed          # Seed database
+npm run db:studio        # Open Prisma Studio
+npm run db:generate      # Generate Prisma client
+
+# Build
+npm run build            # Build all
+npm run build:web        # Build frontend
+npm run build:api        # Build API
+
+# Production
+npm run start            # Start production servers
+```
+
+### API Endpoints
+
+- `GET /api/projects` - List all projects
+- `POST /api/projects` - Create new project
+- `GET /api/sources` - List all sources
+- `POST /api/sources` - Create new source
+- `GET /api/aliases` - List all aliases
+- `POST /api/aliases` - Create new alias
+
+## 🚀 Deployment
+
+### Local Production
+
+```bash
+npm run build
+npm run start
+```
+
+### Docker Deployment
+
+```bash
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+

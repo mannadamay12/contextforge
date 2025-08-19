@@ -1,0 +1,94 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  
+  projects  Project[]
+  aliases   Alias[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user        User     @relation(fields: [userId], references: [id])
+  sources     Source[]
+  outputs     Output[]
+}
+
+model Source {
+  id        String     @id @default(cuid())
+  projectId String
+  type      SourceType
+  url       String?
+  content   String?
+  metadata  Json?
+  status    ProcessingStatus @default(PENDING)
+  createdAt DateTime   @default(now())
+  
+  project   Project    @relation(fields: [projectId], references: [id])
+}
+
+model Alias {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  sources     String[] // Array of source URLs/patterns
+  userId      String
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Output {
+  id          String   @id @default(cuid())
+  projectId   String
+  content     String
+  tokenCount  Int
+  format      OutputFormat @default(XML)
+  createdAt   DateTime @default(now())
+  
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
+enum SourceType {
+  GITHUB_REPO
+  GITHUB_ISSUE
+  GITHUB_PR
+  ARXIV_PAPER
+  YOUTUBE_VIDEO
+  WEB_PAGE
+  LOCAL_FILE
+  PDF_DOCUMENT
+  DOI
+  PMID
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum OutputFormat {
+  XML
+  MARKDOWN
+  JSON
+  PLAIN_TEXT
+}
