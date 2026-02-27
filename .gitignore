@@ -15,7 +15,7 @@ node_modules/
 /coverage
 
 # next.js
-/.next/
+*.next/
 /out/
 
 # production
@@ -64,4 +64,3 @@ docker-compose.override.yml
 
 # OS
 Thumbs.db
-

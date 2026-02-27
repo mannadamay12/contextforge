@@ -1,0 +1,22 @@
+[install]
+# Use exact versions for better reproducibility
+exact = true
+
+# Enable peer dependency resolution
+peer = true
+
+[install.scopes]
+# Configure scopes if needed
+# "@contextforge" = "https://registry.npmjs.org/"
+
+[test]
+# Configure test environment
+preload = ["./test/setup.ts"]
+
+[run]
+# Configure run environment
+bun = true
+
+# Enable Bun's built-in bundler for better performance
+bundle = true
+

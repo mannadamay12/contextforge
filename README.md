@@ -22,7 +22,7 @@ ContextForge is a modern, scalable content aggregation platform designed for AI 
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - Docker and Docker Compose
 - PostgreSQL (via Docker)
 - Redis (via Docker)
@@ -155,3 +155,52 @@ docker-compose -f docker-compose.prod.yml up -d
 4. Add tests if applicable
 5. Submit a pull request
 
+
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │                    Development Setup                        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  Host Machine                        Docker Containers     │
+  │  ┌─────────────────┐                 ┌─────────────────┐   │
+  │  │   Next.js Web   │                 │   PostgreSQL    │   │
+  │  │  localhost:3000 │ ────────────────│  localhost:5432 │   │
+  │  └─────────────────┘                 └─────────────────┘   │
+  │                                                             │
+  │  ┌─────────────────┐                 ┌─────────────────┐   │
+  │  │  Fastify API    │                 │     Redis       │   │
+  │  │  localhost:3001 │ ────────────────│  localhost:6379 │   │
+  │  └─────────────────┘                 └─────────────────┘   │
+  │                                                             │
+  │  ┌─────────────────┐                                       │
+  │  │ Shared Packages │                                       │
+  │  │   Processors    │                                       │
+  │  │   Enhancers     │                                       │
+  │  └─────────────────┘                                       │
+  └─────────────────────────────────────────────────────────────┘
+
+  🚀 Working Features:
+
+  - ✅ Monorepo structure with proper workspace configuration
+  - ✅ Database with Prisma ORM, migrations, and seeded test data
+  - ✅ API server serving JSON endpoints with database integration
+  - ✅ Web app running with Turbopack for fast development
+  - ✅ Background services in Docker (PostgreSQL, Redis)
+  - ✅ Development scripts working correctly
+
+  🛠️ Development Commands:
+
+  # Start both web and API
+  npm run dev
+
+  # Individual services
+  npm run dev:web      # Next.js app (localhost:3000)
+  npm run dev:api      # API server (localhost:3001)
+
+  # Database operations
+  npm run db:migrate   # Run migrations
+  npm run db:seed      # Seed test data
+  npm run db:studio    # Open database browser
+
+  # Dependencies
+  npm run install:all  # Install all package dependencies

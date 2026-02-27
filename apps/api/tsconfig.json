@@ -3,6 +3,8 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -10,21 +12,13 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "composite": true
+    "sourceMap": true
   },
-  "references": [
-    {
-      "path": "./apps/web"
-    },
-    {
-      "path": "./apps/api"
-    },
-    {
-      "path": "./packages/shared"
-    }
+  "include": [
+    "src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
